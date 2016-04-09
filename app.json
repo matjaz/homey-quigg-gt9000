@@ -1,0 +1,15 @@
+{
+  "id": "com.aldi.gt9000",
+  "name": {
+    "en": "GT 9000"
+  },
+  "version": "0.0.1",
+  "compatibility": "0.x",
+  "author": {
+    "name": "Matjaž Lipuš",
+    "email": "matjazl@gmail.com"
+  },
+  "permissions": [
+    "homey:wireless:433"
+  ]
+}
