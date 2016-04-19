@@ -1,9 +1,8 @@
 module.exports = [{
   path: '/send',
-  method: 'GET',
+  method: 'POST',
   description: 'send',
   fn: function (callback, args) {
-    Homey.app.send()
-    callback(null, 'ok')
+    Homey.app.send(args.body.data, callback)
   }
 }]

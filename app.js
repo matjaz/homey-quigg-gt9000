@@ -8,20 +8,17 @@ exports.init = function () {
     console.log('GT9000: Init')
     initFlag = true
     signal = new Homey.wireless('433').Signal({
-        sof: [],
-        eof: [3000, 7000],
-        words: [
-            [416, 1040], // 0
-            [1040, 624], // 1
-            [1040, 832], // 2
-            [832, 1040], // 3
-        ],
-        interval: 13000,
-        // manchesterUnit: 208,
-        repetitions: 4,
-        sensitivity: 0.9,
-        minimalLength: 24,
-        maximalLength: 24
+      sof: [],
+      eof: [3000],
+      words: [
+        [300, 1100], // 0
+        [1100, 300]  // 1
+      ],
+      interval: 7000,
+      repetitions: 4,
+      sensitivity: 0.6,
+      minimalLength: 24,
+      maximalLength: 24
     })
     signal.register(function( err, success ){
       console.log('GT9000: err', err, 'success', success)
@@ -34,11 +31,17 @@ exports.init = function () {
   }
 }
 
-exports.send = function () {
-  var data = [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1]
-  console.log('send', data.length, data)
+exports.send = function (data, callback) {
+  if (!Array.isArray(data)) {
+    callback(new Error('invalid data'))
+    return
+  }
+  console.log('send', data)
   var frame = new Buffer(data)
   signal.tx(frame, function(err, result) {
     console.log('GT9000 tx:', err, result)
+    callback(err, {
+      result: result
+    })
   })
 }
